@@ -40,21 +40,21 @@ public partial class MainWindowViewModel : ObservableObject
 
     private void InitializeViewModel()
     {
-        ApplicationTitle = "WPF UI - MVVM Demo";
+        ApplicationTitle = "SmartPen UI";
 
         NavigationItems =
         [
             new NavigationViewItem()
             {
-                Content = "Home",
-                Icon = new SymbolIcon { Symbol = SymbolRegular.Home24 },
-                TargetPageType = typeof(Views.Pages.DashboardPage)
+                Content = "Data Labeling",
+                Icon = new SymbolIcon { Symbol = SymbolRegular.Save24 },
+                TargetPageType = typeof(Views.Pages.DataLabelingPage)
             },
             new NavigationViewItem()
             {
-                Content = "Data",
-                Icon = new SymbolIcon { Symbol = SymbolRegular.DataHistogram24 },
-                TargetPageType = typeof(Views.Pages.DataPage)
+                Content = "Prediction",
+                Icon = new SymbolIcon { Symbol = SymbolRegular.Lightbulb24 },
+                TargetPageType = typeof(Views.Pages.PredictionPage)
             },
         ];
 

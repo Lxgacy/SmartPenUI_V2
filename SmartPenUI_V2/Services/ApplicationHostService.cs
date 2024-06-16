@@ -54,7 +54,7 @@ public class ApplicationHostService : IHostedService
             )!;
             _navigationWindow!.ShowWindow();
 
-            _ = _navigationWindow.Navigate(typeof(Views.Pages.DashboardPage));
+            _ = _navigationWindow.Navigate(typeof(Views.Pages.DataLabelingPage));
         }
 
         await Task.CompletedTask;

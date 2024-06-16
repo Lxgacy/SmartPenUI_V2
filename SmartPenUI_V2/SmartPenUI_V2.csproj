@@ -9,11 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\appIcon.png" />
     <None Remove="Assets\applicationIcon-1024.png" />
     <None Remove="Assets\applicationIcon-256.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Assets\appIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\applicationIcon-1024.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
