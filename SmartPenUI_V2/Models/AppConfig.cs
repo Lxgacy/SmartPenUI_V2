@@ -3,11 +3,14 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace SmartPenUI_V2.Models;
 
 public class AppConfig
 {
-    public string? ConfigurationsFolder { get; set; }
+	public string? ConfigurationsFolder { get; set; }
 
     public string? AppPropertiesFileName { get; set; }
+
 }

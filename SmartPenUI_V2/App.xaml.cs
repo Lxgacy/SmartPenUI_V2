@@ -1,4 +1,4 @@
-// This Source Code Form is subject to the terms of the MIT License.
+﻿// This Source Code Form is subject to the terms of the MIT License.
 // If a copy of the MIT was not distributed with this file, You can obtain one at https://opensource.org/licenses/MIT.
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
@@ -11,6 +11,9 @@ using Microsoft.Extensions.Hosting;
 using SmartPenUI_V2.Models;
 using SmartPenUI_V2.Services;
 using Wpf.Ui;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using SkiaSharp;
 
 namespace SmartPenUI_V2;
 
@@ -66,8 +69,11 @@ public partial class App
                 _ = services.AddSingleton<Views.Pages.SettingsPage>();
                 _ = services.AddSingleton<ViewModels.SettingsViewModel>();
 
-                // Configuration
-                _ = services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));
+				// DummyTcpClientService
+				_ = services.AddSingleton<DummyTcpClientService>();
+
+				// Configuration
+				_ = services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));
             }
         )
         .Build();
@@ -89,7 +95,14 @@ public partial class App
     private async void OnStartup(object sender, StartupEventArgs e)
     {
         await _host.StartAsync();
-    }
+
+		LiveCharts.Configure(config =>
+				config
+					// you can override the theme 
+					 .AddDarkTheme()
+        );
+
+	}
 
     /// <summary>
     /// Occurs when the application is closing.

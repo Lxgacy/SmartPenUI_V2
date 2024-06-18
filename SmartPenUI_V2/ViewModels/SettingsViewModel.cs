@@ -4,14 +4,17 @@
 // All Rights Reserved.
 
 using Wpf.Ui.Controls;
-
 namespace SmartPenUI_V2.ViewModels;
-
 public partial class SettingsViewModel : ObservableObject, INavigationAware
 {
-    private bool _isInitialized = false;
+	private bool _isInitialized = false;
+	[ObservableProperty]
+	private string _mdnsName = "esp-mdns-smartpen";
 
     [ObservableProperty]
+	private string _tcpPort = "4711";
+
+	[ObservableProperty]
     private string _appVersion = string.Empty;
 
     [ObservableProperty]
