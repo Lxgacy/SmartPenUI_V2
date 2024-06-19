@@ -55,8 +55,11 @@ public partial class App
                 // Service containing navigation, same as INavigationWindow... but without window
                 _ = services.AddSingleton<INavigationService, NavigationService>();
 
-                // Main window with navigation
-                _ = services.AddSingleton<INavigationWindow, Views.MainWindow>();
+				// Add snackbar service
+				_ = services.AddSingleton<ISnackbarService, SnackbarService>();
+
+				// Main window with navigation
+				_ = services.AddSingleton<INavigationWindow, Views.MainWindow>();
                 _ = services.AddSingleton<ViewModels.MainWindowViewModel>();
 
                 // Views and ViewModels
@@ -71,6 +74,8 @@ public partial class App
 
 				// DummyTcpClientService
 				_ = services.AddSingleton<DummyTcpClientService>();
+				// DummyInfluxDBService
+				_ = services.AddSingleton<DummyInfluxDBService>();
 
 				// Configuration
 				_ = services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));

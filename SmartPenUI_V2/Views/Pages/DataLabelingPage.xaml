@@ -11,38 +11,138 @@
         Title="PredictionPage"
         d:DataContext="{d:DesignInstance local:DataLabelingPage,
                                      IsDesignTimeCreatable=False}"
-        d:DesignHeight="500"
+        d:DesignHeight="650"
         d:DesignWidth="800"
         ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
         ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
         Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-        ScrollViewer.CanContentScroll="False"
+        ScrollViewer.CanContentScroll="True"
         mc:Ignorable="d">
 
     <Page.Resources>
         <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+        <helpers:ConnectionStatusToIconConverter x:Key="ConnectionStatusToIconConverter" />
+        <helpers:LabelingStatusToIconConverter x:Key="LabelingStatusToIconConverter" />
     </Page.Resources>
 
-    <StackPanel Margin="42, 4">
+    <StackPanel Margin="42, 0">
+        <DockPanel LastChildFill="False">
+            <!-- Left-aligned menu items -->
+            <Menu DockPanel.Dock="Left">
+                <ui:TextBlock 
+                    Text="Project"
+                    FontSize="14"
+                    />
+                <ComboBox 
+                    x:Name="projectComboBox"
+                    DisplayMemberPath="ProjectName"
+                    ItemsSource="{Binding ViewModel.Projects}"
+                    SelectedItem="{Binding ViewModel.SelectedProject}"
+                    SelectedIndex="0"
+                    />
+
+                <ui:TextBlock 
+                    Text="Measurement"
+                    FontSize="14"
+                    Margin="10,0,0,0"
+                    />
+                <ComboBox
+                    x:Name="measurementComboBox" 
+                    DisplayMemberPath="." 
+                    ItemsSource="{Binding ViewModel.SelectedProject.Measurements}"
+                    SelectedIndex="0"
+                    />
+                <Separator />
+            </Menu>
+            
+            <!-- Right-aligned menu items -->
+            <Menu DockPanel.Dock = "Right">
+                <ui:MenuItem
+                    Icon="{Binding ViewModel.IsConnected, Converter={StaticResource ConnectionStatusToIconConverter}}" 
+                    Command="{Binding ViewModel.ConnectDisconnectTCPCommand}"
+                    />
+                <Separator />
+
+                <ui:MenuItem 
+                    Icon="{ui:SymbolIcon Previous20}" 
+                    Command="{Binding ViewModel.PreviousLabelCommand}"
+                    IsEnabled="{Binding ViewModel.StartStopActive}"
+                    />
+
+                <TextBox 
+                    Text="{Binding ViewModel.SelectedLabel}"
+                    IsReadOnly="True"
+                    IsEnabled="{Binding ViewModel.StartStopActive}"
+                    Margin="0"
+                    />
+
+                <Separator />
+                <ui:MenuItem
+                    Command="{Binding ViewModel.StartStopLabelingCommand}" 
+                    IsEnabled="{Binding ViewModel.StartStopActive}">
+
+                    <ui:MenuItem.Icon>
+                        <MultiBinding Converter="{StaticResource LabelingStatusToIconConverter}">
+                            <Binding Path="ViewModel.IsLabeling" />
+                            <Binding Path="ViewModel.StartStopActive" />
+                        </MultiBinding>
+                    </ui:MenuItem.Icon>
+                </ui:MenuItem>
+                <ui:MenuItem 
+                    Icon="{ui:SymbolIcon Save20}" 
+                    Command="{Binding ViewModel.SaveDataCommand}"
+                    IsEnabled="{Binding ViewModel.HasData}"
+                    />
+                <ui:MenuItem 
+                    Icon="{ui:SymbolIcon Delete20}" 
+                    Command="{Binding ViewModel.ScrapDataCommand}"
+                    IsEnabled="{Binding ViewModel.HasData}"
+                    />
+            </Menu>
+        </DockPanel>
+        <Separator BorderThickness="2"/>
 
         <TextBlock
             FontSize="20"
             FontWeight="Medium"
-            Text="Acceleration" />
+            Text="Acceleration" 
+            Margin="0,20,0,5"/>
         <lvc:CartesianChart
-            Series="{Binding ViewModel.Series}"
+            Series="{Binding ViewModel.AccSeries}"
             Name="Acceleration"
-            Height="250">
+            Height="250"
+            LegendPosition="Right">
+        </lvc:CartesianChart>
+        
+        <Separator Margin="0,20,0,20"/>
+
+        <TextBlock
+            FontSize="20"
+            FontWeight="Medium"
+            Text="Angular Velocity" 
+            Margin="0,0,0,5"/>
+        <lvc:CartesianChart
+            Series="{Binding ViewModel.GyroSeries}"
+            Name="AngularVelocity"
+            Height="250"
+            LegendPosition="Right"
+            >
         </lvc:CartesianChart>
 
+        <Separator Margin="0,20,0,20"/>
+
         <TextBlock
             FontSize="20"
             FontWeight="Medium"
-            Text="Angular Velocity" />
+            Text="Pressure" 
+            Margin="0,0,0,5"/>
         <lvc:CartesianChart
-            Series="{Binding ViewModel.Series}"
-            Name="AngularVelocity"
-            Height="250"> 
+            Series="{Binding ViewModel.PressureSeries}"
+            Name="Pressure"
+            Height="250"
+            LegendPosition="Right"
+            Margin="0,0,0,10"
+            >
         </lvc:CartesianChart>
 
     </StackPanel>

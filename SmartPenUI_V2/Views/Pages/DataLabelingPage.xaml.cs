@@ -1,4 +1,6 @@
-﻿using Wpf.Ui.Controls;
+﻿using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp;
+using Wpf.Ui.Controls;
 
 namespace SmartPenUI_V2.Views.Pages
 {
@@ -15,6 +17,9 @@ namespace SmartPenUI_V2.Views.Pages
             DataContext = this;
 
             InitializeComponent();
-        }
+            Acceleration.LegendTextPaint = new SolidColorPaint(SKColors.White);
+            AngularVelocity.LegendTextPaint = new SolidColorPaint(SKColors.White);
+            Pressure.LegendTextPaint = new SolidColorPaint(SKColors.White);
+		}
     }
 }
