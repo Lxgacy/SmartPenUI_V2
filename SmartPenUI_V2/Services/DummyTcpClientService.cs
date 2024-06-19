@@ -21,8 +21,8 @@ namespace SmartPenUI_V2.Services
 
 		private Timer? _timer;
 		private Timer? _timerPred;
-		private bool _isConnected = false;
 
+		private bool _isConnected = false;
 		public bool IsConnected => _isConnected;
 
 		public DummyTcpClientService()

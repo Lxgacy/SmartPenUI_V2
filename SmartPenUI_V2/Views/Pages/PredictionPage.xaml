@@ -21,18 +21,62 @@
     <Page.Resources>
         <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
         <helpers:ConnectionStatusToIconConverter x:Key="ConnectionStatusToIconConverter" />
+        <helpers:LabelingStatusToIconConverter x:Key="LabelingStatusToIconConverter" />
+        <helpers:IndexToOpacityConverter x:Key="IndexToOpacityConverter" />
     </Page.Resources>
-    
-    <StackPanel Margin="42, 4">
-        <Menu HorizontalAlignment="Right">
-            <ui:MenuItem 
-            Icon="{Binding ViewModel.IsConnected, Converter={StaticResource ConnectionStatusToIconConverter}}" 
-            Command="{Binding ViewModel.ConnectDisconnectTCPCommand}"
-            />
-            <Separator />
-            <ui:MenuItem Icon="{ui:SymbolIcon TextItalic20}" />
-            <ui:MenuItem Icon="{ui:SymbolIcon TextUnderline20}" />
-        </Menu>
+
+    <StackPanel Margin="42, 0">
+        <DockPanel LastChildFill="False">
+            <!-- Right-aligned menu items -->
+            <Menu DockPanel.Dock = "Right">
+                <ui:MenuItem
+                   Icon="{Binding ViewModel.IsConnected, Converter={StaticResource ConnectionStatusToIconConverter}}" 
+                   Command="{Binding ViewModel.ConnectDisconnectTCPCommand}"
+                   />
+                <Separator />
+
+                <ui:MenuItem
+                   Command="{Binding ViewModel.StartStopPredictingCommand}"
+                   IsEnabled="{Binding ViewModel.StartStopActive}">
+
+                    <ui:MenuItem.Icon>
+                        <MultiBinding Converter="{StaticResource LabelingStatusToIconConverter}">
+                            <Binding Path="ViewModel.IsPredicting" />
+                            <Binding Path="ViewModel.StartStopActive" />
+                        </MultiBinding>
+                    </ui:MenuItem.Icon>
+                </ui:MenuItem>
+
+                <ui:MenuItem 
+                   Icon="{ui:SymbolIcon Delete20}" 
+                   Command="{Binding ViewModel.ScrapHistoryCommand}"
+                   IsEnabled="{Binding ViewModel.HasData}"
+                   />
+            </Menu>
+        </DockPanel>
+        <Separator BorderThickness="2"/>
+
+        <TextBlock
+           FontSize="20"
+           FontWeight="Medium"
+           Text="Label Prediction" 
+           Margin="0,20,0,5"/>
+        <ItemsControl ItemsSource="{Binding ViewModel.Characters}" Height="150">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Character}" FontSize="50" Height="50" TextAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock.RenderTransform>
+                            <ScaleTransform ScaleX="{Binding Scale}" ScaleY="{Binding Scale}" CenterY="25"/>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
     </StackPanel>
 </Page>
