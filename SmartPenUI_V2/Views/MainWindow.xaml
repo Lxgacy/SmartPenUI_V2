@@ -26,6 +26,9 @@
             Command="{Binding ElementName=AutoSuggestBox, Path=FocusCommand}"
             Modifiers="Control" />
     </ui:FluentWindow.InputBindings>
+    <ui:FluentWindow.Icon>
+        <BitmapImage UriSource="pack://application:,,,/Assets/appIcon.png" />
+    </ui:FluentWindow.Icon>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -50,15 +53,25 @@
 
         <ui:TitleBar
             Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
-            Grid.Row="0"
-            Icon="pack://application:,,,/Assets/appIcon.png" /> 
+            Grid.Row="0">
+            <ui:TitleBar.Icon>
+                <ui:ImageIcon
+                    Height="15"
+                    Width="15"
+                    Source="pack://application:,,,/Assets/appIcon.png"
+                    />
+            </ui:TitleBar.Icon>
+        </ui:TitleBar>
 
         <tray:NotifyIcon
             Grid.Row="0"
             FocusOnLeftClick="True"
-            Icon="pack://application:,,,/Assets/appIcon.png"
             MenuOnRightClick="True"
             TooltipText="SmartPen UI">
+            <tray:NotifyIcon.Icon>
+               <BitmapImage UriSource="pack://application:,,,/Assets/appIcon.png" />
+            </tray:NotifyIcon.Icon>
+            
             <tray:NotifyIcon.Menu>
                 <ContextMenu ItemsSource="{Binding ViewModel.TrayMenuItems, Mode=OneWay}" />
             </tray:NotifyIcon.Menu>

@@ -23,6 +23,7 @@
         <helpers:ConnectionStatusToIconConverter x:Key="ConnectionStatusToIconConverter" />
         <helpers:LabelingStatusToIconConverter x:Key="LabelingStatusToIconConverter" />
         <helpers:IndexToOpacityConverter x:Key="IndexToOpacityConverter" />
+        <helpers:BoolToThicknessConverter x:Key="BoolToThicknessConverter" />
     </Page.Resources>
 
     <StackPanel Margin="42, 0">
@@ -61,22 +62,33 @@
            FontWeight="Medium"
            Text="Label Prediction" 
            Margin="0,20,0,5"/>
-        <ItemsControl ItemsSource="{Binding ViewModel.Characters}" Height="150">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Character}" FontSize="50" Height="50" TextAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock.RenderTransform>
-                            <ScaleTransform ScaleX="{Binding Scale}" ScaleY="{Binding Scale}" CenterY="25"/>
-                        </TextBlock.RenderTransform>
-                    </TextBlock>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-
+        <Border BorderBrush="DimGray" BorderThickness="1" CornerRadius="5" Padding="10">
+            <ItemsControl ItemsSource="{Binding ViewModel.Characters}" Height="90">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="DimGray" BorderThickness="{Binding IsNewest, Converter={StaticResource BoolToThicknessConverter}}" CornerRadius="5" 
+                                Padding="10">
+                            <ui:TextBlock 
+                                Text="{Binding Character}" 
+                                FontSize="65" 
+                                TextAlignment="Center" 
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Opacity="{Binding Scale}"
+                                >
+                                <ui:TextBlock.RenderTransform>
+                                    <ScaleTransform ScaleX="{Binding Scale}" ScaleY="{Binding Scale}" CenterY="25"/>
+                                </ui:TextBlock.RenderTransform>
+                            </ui:TextBlock>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
     </StackPanel>
 </Page>

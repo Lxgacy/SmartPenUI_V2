@@ -142,6 +142,7 @@ namespace SmartPenUI_V2.ViewModels
 					_tcpClientService?.StartPredicting();
 					// update the bool property for the labeling status
 					IsPredicting = true;
+					HasData = false;
 				}
 			}
 		}
@@ -201,11 +202,21 @@ namespace SmartPenUI_V2.ViewModels
 		{
 			// add character to the list of characters
 			AddCharacter(pred[0]);
-			//Application.Current.Dispatcher.Invoke(() => Characters.Add(pred[0]));
+
+			// Show a snackbar message
+			Application.Current.Dispatcher.Invoke(() => OpenSnackbar(ControlAppearance.Info, "Prediction received!", "A prediction has been received from the server.", SymbolRegular.Info24));
 		}
 
 		private void AddCharacter(char character)
 		{
+			// if the count is 6, remove the first character
+			if (Characters.Count == 6)
+			{
+				Application.Current.Dispatcher.Invoke(() => Characters.RemoveAt(0));
+			}
+
+			if(Characters.Count > 0)
+				Application.Current.Dispatcher.Invoke(() => Characters.Last().IsNewest = false);
 			Application.Current.Dispatcher.Invoke(() => Characters.Add(new CharacterViewModel { Character = character.ToString() }));
 			UpdateScales();
 		}
@@ -216,8 +227,8 @@ namespace SmartPenUI_V2.ViewModels
 			for (int i = 0; i < count; i++)
 			{
 				int reverseIndex = count - i - 1;
-				double scale = 1 - (reverseIndex * 0.1);
-				Characters[i].Scale = scale > 0.5 ? scale : 0.5; // Ensure scale does not go below 0.5, adjust as needed.
+				double scale = 1 - (reverseIndex * 0.13);
+				Characters[i].Scale = scale > 0.4 ? scale : 0.4; // Ensure scale does not go below 0.5, adjust as needed.
 			}
 		}
 
@@ -249,4 +260,7 @@ public partial class CharacterViewModel : ObservableObject
 
 	[ObservableProperty]
 	private double scale = 1.0;
+
+	[ObservableProperty]
+	public bool isNewest = true;
 }

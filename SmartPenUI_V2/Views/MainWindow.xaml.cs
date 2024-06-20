@@ -5,6 +5,7 @@
 
 using Wpf.Ui;
 using Wpf.Ui.Controls;
+using Wpf.Ui.Tray.Controls;
 namespace SmartPenUI_V2.Views;
 
 /// <summary>
@@ -31,6 +32,7 @@ public partial class MainWindow : INavigationWindow
 
         navigationService.SetNavigationControl(RootNavigation);
 		snackbarService.SetSnackbarPresenter(SnackbarPresenter);
+        
 	}
 
     public INavigationView GetNavigation() => RootNavigation;
