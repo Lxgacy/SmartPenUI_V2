@@ -39,7 +39,11 @@
             Margin="0,8"
             Width="280"
             HorizontalAlignment="Left"
-            Text="{Binding ViewModel.TcpPort, Mode=TwoWay}" />
+            Text="{Binding ViewModel.TcpPort, Mode=TwoWay}" 
+            PreviewTextInput="TextBox_PreviewTextInput"
+            DataObject.Pasting="TextBox_Pasting"
+            MaxLength="9"
+            />
         
         <!--<TextBlock-->
         <!--    FontSize="20"-->

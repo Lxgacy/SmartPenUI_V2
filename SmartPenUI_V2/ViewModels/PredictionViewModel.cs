@@ -74,7 +74,7 @@ namespace SmartPenUI_V2.ViewModels
 		/// Command for connecting to and disconnecting from the TCP client
 		/// </summary>
 		[RelayCommand]
-		public void ConnectDisconnectTCP()
+		public async void ConnectDisconnectTCP()
 		{
 			// check for the connection status
 			// if connected -> disconnect
@@ -95,11 +95,16 @@ namespace SmartPenUI_V2.ViewModels
 			}
 			else
 			{
-				// connect to the tcp server
-				_tcpClientService?.Connect();
-
-				// show a snackbar message
-				OpenSnackbar(ControlAppearance.Success, "Connected successfully!", "The connection to the TCP server has been successfully established.", SymbolRegular.Checkmark24);
+				if (await _tcpClientService?.Connect())
+				{
+					// show a snackbar message
+					OpenSnackbar(ControlAppearance.Success, "Connected successfully!", "The connection to the TCP server has been successfully established.", SymbolRegular.Checkmark24);
+				}
+				else
+				{
+					// show a snackbar message
+					OpenSnackbar(ControlAppearance.Danger, "Connection failed!", "The connection to the TCP server could not be established.", SymbolRegular.ErrorCircle24);
+				}
 			}
 
 			// update the connection status from the viewmodel that is bound to the view

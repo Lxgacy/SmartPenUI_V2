@@ -9,9 +9,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\DataLabelingModel.cs" />
+    <Compile Remove="ViewModels\DashboardViewModel.cs" />
+    <Compile Remove="ViewModels\DataViewModel.cs" />
+    <Compile Remove="Views\Pages\DashboardPage.xaml.cs" />
+    <Compile Remove="Views\Pages\DataPage.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Assets\appIcon.png" />
     <None Remove="Assets\applicationIcon-1024.png" />
     <None Remove="Assets\applicationIcon-256.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="Views\Pages\DashboardPage.xaml" />
+    <Page Remove="Views\Pages\DataPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>

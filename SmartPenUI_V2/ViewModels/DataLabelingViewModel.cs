@@ -147,7 +147,7 @@ namespace SmartPenUI_V2.ViewModels
 		/// Command for connecting to and disconnecting from the TCP client
 		/// </summary>
 		[RelayCommand]
-		public void ConnectDisconnectTCP()
+		public async void ConnectDisconnectTCP()
 		{
 			// check for the connection status
 			// if connected -> disconnect
@@ -170,10 +170,17 @@ namespace SmartPenUI_V2.ViewModels
 			else
 			{
 				// connect to the tcp server
-				_tcpClientService?.Connect();
-
-				// show a snackbar message
-				OpenSnackbar(ControlAppearance.Success, "Connected successfully!", "The connection to the TCP server has been successfully established.", SymbolRegular.Checkmark24);
+				// check if the connection was successful
+				if (await _tcpClientService?.Connect())
+				{
+					// show a snackbar message
+					OpenSnackbar(ControlAppearance.Success, "Connected successfully!", "The connection to the TCP server has been successfully established.", SymbolRegular.Checkmark24);
+				}
+				else
+				{
+					// show a snackbar message
+					OpenSnackbar(ControlAppearance.Danger, "Connection failed!", "The connection to the TCP server could not be established.", SymbolRegular.ErrorCircle24);
+				}
 			}
 
 			// update the connection status from the viewmodel that is bound to the view
@@ -228,6 +235,8 @@ namespace SmartPenUI_V2.ViewModels
 						// enable the save and scrap buttons
 						HasData = true;
 					}
+					else
+						StartStopActive = true;
 				}
 				else
 				{
@@ -253,6 +262,9 @@ namespace SmartPenUI_V2.ViewModels
 			{
 				// save the data (not here -> dummy)
 				// add the function(s) to save the data to the InfluxDB
+				_influxDBService?.SaveData(_valuesAccX.ToArray(), _valuesAccY.ToArray(), _valuesAccZ.ToArray(),
+										   _valuesGyroX.ToArray(), _valuesGyroY.ToArray(), _valuesGyroZ.ToArray(), 
+										   _valuesFSR.ToArray(), SelectedLabel, SelectedProject);
 
 				// clear the data (no need for them anymore as they have been saved)
 				ClearData();
@@ -345,13 +357,13 @@ namespace SmartPenUI_V2.ViewModels
 		private void TcpClientService_OnDataReceived(byte[] data)
 		{
 			// add the received data to the collections
-			_valuesAccX?.Add(new(data[0]));
-			_valuesAccY?.Add(new(data[1]));
-			_valuesAccZ?.Add(new(data[2]));
-			_valuesGyroX?.Add(new(data[3]));
-			_valuesGyroY?.Add(new(data[4]));
-			_valuesGyroZ?.Add(new(data[5]));
-			_valuesFSR?.Add(new(data[6]));
+			_valuesAccX?.Add(new(data[1]));
+			_valuesAccY?.Add(new(data[2]));
+			_valuesAccZ?.Add(new(data[3]));
+			_valuesGyroX?.Add(new(data[4]));
+			_valuesGyroY?.Add(new(data[5]));
+			_valuesGyroZ?.Add(new(data[6]));
+			_valuesFSR?.Add(new(data[7]));
 		}
 
 		/// <summary>

@@ -9,7 +9,7 @@ public partial class SettingsViewModel : ObservableObject, INavigationAware
 {
 	private bool _isInitialized = false;
 	[ObservableProperty]
-	private string _mdnsName = "esp-mdns-smartpen";
+	private string _mdnsName = "localhost";
 
     [ObservableProperty]
 	private string _tcpPort = "4711";

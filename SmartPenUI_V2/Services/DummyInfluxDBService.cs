@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LiveChartsCore.Defaults;
 using SmartPenUI_V2.Models;
 
 namespace SmartPenUI_V2.Services;
@@ -24,5 +25,12 @@ public class DummyInfluxDBService
 	public ObservableCollection<Project> GetProjects()
 	{
 		return _projects;
+	}
+
+	public void SaveData(ObservableValue[] valuesAccX, ObservableValue[] valuesAccY, ObservableValue[] valuesAccZ,
+						 ObservableValue[] valuesGyroX, ObservableValue[] valuesGyroY, ObservableValue[] valuesGyroZ,
+						 ObservableValue[] valuesFSR, string label, Project selectedProject)
+	{
+		// do nothing
 	}
 }

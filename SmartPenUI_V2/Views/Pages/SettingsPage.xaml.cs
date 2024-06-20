@@ -21,4 +21,26 @@ public partial class SettingsPage : INavigableView<ViewModels.SettingsViewModel>
 
         InitializeComponent();
     }
+	private void TextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+	{
+		// Use regular expression to check if input is numeric
+		e.Handled = !System.Text.RegularExpressions.Regex.IsMatch(e.Text, "^[0-9]+$");
+	}
+
+	private void TextBox_Pasting(object sender, DataObjectPastingEventArgs e)
+	{
+		if (e.DataObject.GetDataPresent(typeof(string)))
+		{
+			string text = (string)e.DataObject.GetData(typeof(string));
+			// Check if pasted text is numeric
+			if (!System.Text.RegularExpressions.Regex.IsMatch(text, "^[0-9]+$"))
+			{
+				e.CancelCommand();
+			}
+		}
+		else
+		{
+			e.CancelCommand();
+		}
+	}
 }
